@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ShopDemo.Data.Entity.Comment
 {
     public class BaseEnity<TEntity>
-    {
+    { 
         public TEntity Id { get; set; }
     }
 }

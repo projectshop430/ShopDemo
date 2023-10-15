@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShopDemo.Data.Entity.Account
 {
-    public class User :BaseEnity<long>
+    public class User 
     {
         #region property
         #endregion

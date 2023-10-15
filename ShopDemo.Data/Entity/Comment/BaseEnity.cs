@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShopDemo.Data.Entity.Comment
 {
-    public class BaseEnity<TEntity>
+    public class BaseEnity
     { 
-        public TEntity Id { get; set; }
+        public long Id { get; set; }
     }
 }

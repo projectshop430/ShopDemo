@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.implementation;
 using shopDemo.application.Services.Interface;
+using ShopDemo.Data.Context;
 using ShopDemo.Data.Entity.Account;
 using ShopDemo.Data.Repository;
 
@@ -10,6 +12,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped(typeof(IGeneruicRepository<>), typeof(GentericRepository<>));
 builder.Services.AddScoped<IUserService,UserService>();
+
+builder.Services.AddDbContext<ShopDemoContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("ShopDemoConnectionString"));
+}, ServiceLifetime.Transient);
+
+
 
 var app = builder.Build();
 

@@ -21,7 +21,7 @@ namespace ShopDemo.Data.Repository
         void DeletePermanent(TEntity entity);
         Task DeletePermanent(long entityID);
 
-
+        Task Savechanges();
 
 
 

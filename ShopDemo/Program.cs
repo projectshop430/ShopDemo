@@ -1,7 +1,15 @@
+using shopDemo.application.Services.implementation;
+using shopDemo.application.Services.Interface;
+using ShopDemo.Data.Entity.Account;
+using ShopDemo.Data.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped(typeof(IGeneruicRepository<>), typeof(GentericRepository<>));
+builder.Services.AddScoped<IUserService,UserService>();
 
 var app = builder.Build();
 

@@ -24,12 +24,14 @@ namespace ShopDemo.Data.Repository
         {
             enity.CreateDate= DateTime.Now;
             await this._dbset.AddAsync(enity);
+           
         }
 
         public void DeleteEntity(TEnity entity)
         {
             entity.IsDeleted = true;
             EditEnity(entity);
+
         }
 
         public async Task DeleteEntity(long entityID)
@@ -76,6 +78,11 @@ namespace ShopDemo.Data.Repository
         public IQueryable<TEnity> GetQuery()
         {
             return _dbset.AsQueryable();
+        }
+
+        public async Task Savechanges()
+        {
+           await  _context.SaveChangesAsync();
         }
     }
 }

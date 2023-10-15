@@ -26,7 +26,32 @@ namespace ShopDemo.Data.Repository
             await this._dbset.AddAsync(enity);
         }
 
-       
+        public void DeleteEntity(TEnity entity)
+        {
+            entity.IsDeleted = true;
+            EditEnity(entity);
+        }
+
+        public async Task DeleteEntity(long entityID)
+        {
+            TEnity enity = await GetEnitybyId(entityID);
+            if (enity != null)
+                DeleteEntity(enity);
+        }
+
+        public void DeletePermanent(TEnity entity)
+        {
+            _dbset.Remove(entity);
+        }
+
+        public async Task DeletePermanent(long entityID)
+        {
+            TEnity enity = await GetEnitybyId(entityID);
+            if (enity != null)
+                DeletePermanent(enity);
+          
+            
+        }
 
         public async ValueTask DisposeAsync()
         {
@@ -39,13 +64,18 @@ namespace ShopDemo.Data.Repository
 
         public void EditEnity(TEnity entity)
         {
-            entity.LastUpdateDate=DateTime.Now
+            entity.LastUpdateDate = DateTime.Now;
             _dbset.Update(entity);
         }
 
         public async Task<TEnity> GetEnitybyId(long enityId)
         {
             return await this._dbset.SingleOrDefaultAsync(x => x.Id == enityId );
+        }
+
+        public IQueryable<TEnity> GetQuery()
+        {
+            return _dbset.AsQueryable();
         }
     }
 }

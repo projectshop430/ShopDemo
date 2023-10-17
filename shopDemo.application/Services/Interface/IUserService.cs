@@ -1,4 +1,4 @@
-﻿using ShopDemo.Data.DTOs;
+﻿using ShopDemo.Data.DTOs.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;

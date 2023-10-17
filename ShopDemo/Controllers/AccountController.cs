@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using shopDemo.application.Services.implementation;
 using shopDemo.application.Services.Interface;
-using ShopDemo.Data.DTOs;
+using ShopDemo.Data.DTOs.Account;
 
 namespace ShopDemo.Controllers
 {
@@ -17,10 +17,7 @@ namespace ShopDemo.Controllers
         [HttpGet("register")]
         public IActionResult Register()
         {
-            TempData[SuccessMessage] = "ثبت نام شما با موفقیت انجام شد";
-            TempData[ErrorMessage] = "ثبت نام شما با موفقیت انجام شد";
-            TempData[InfoMessage] = "ثبت نام شما با موفقیت انجام شد";
-            TempData[WarningMessage] = "ثبت نام شما با موفقیت انجام شد";
+          
             return View();
         }
         [HttpPost("register"),ValidateAntiForgeryToken]
@@ -49,8 +46,12 @@ namespace ShopDemo.Controllers
             }
             return View(registerUserDTO);
         }
-       
+        [HttpGet("Login")]
         public IActionResult Login()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Login(LoginUserDTO LoginUserDTO)
         {
             return View();
         }

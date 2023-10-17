@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.Interface;
-using ShopDemo.Data.DTOs;
+using ShopDemo.Data.DTOs.Account;
 using ShopDemo.Data.Entity.Account;
 using ShopDemo.Data.Repository;
 using System;
@@ -45,6 +45,8 @@ namespace shopDemo.application.Services.implementation
                         LastName = register.LastName,
                         Mobile = register.Mobile,
                         Password = _PasswordHelper.EncodePasswordMD5(register.Password),
+                        MobileActiveCode = new Random().Next(10000, 99999).ToString(),
+                        EmailActiveCode = Guid.NewGuid().ToString("N"),
                     };
                     await _Userrepository.AddEntity(user);
                     await _Userrepository.Savechanges();

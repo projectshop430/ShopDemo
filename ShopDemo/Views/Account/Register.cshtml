@@ -1,4 +1,4 @@
-﻿
+﻿@model ShopDemo.Data.DTOs.Account.RegisterUserDTO
 @{
     ViewData["Title"] = "Register";
 }
@@ -10,7 +10,7 @@
 				<div class="breadcrumb_content">
 					<ul>
 						<li><a href="index.html">خانه</a></li>
-						<li>حساب کاربری</li>
+						<li>ثبت نام</li>
 					</ul>
 				</div>
 			</div>
@@ -18,6 +18,10 @@
 	</div>
 </div>
 
+@section scripts
+{
+	<partial name="_JqueryValidator" />
+}
 
 <div class="customer_login mt-60">
 	<div class="container">
@@ -27,14 +31,31 @@
 			<div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
 				<div class="account_form register">
 					<h2>ثبت نام</h2>
-					<form action="#">
+					<form  method="post" asp-asp-controller="Account" asp-action="Register">
 						<p>
-							<label>آدرس ایمیل <span>*</span></label>
-							<input type="text">
+							<label>نام <span>*</span></label>
+							<input type="text" asp-for="FirstName" >
+							<span asp-validation-for="FirstName" class="text-danger"></span>
 						</p>
 						<p>
-							<label>رمز عبور <span>*</span></label>
-							<input type="password">
+							<label>نام خانوادگی <span>*</span></label>
+							<input type="text" asp-for="LastName">
+							<span asp-validation-for="LastName" class="text-danger"></span>
+						</p>
+						<p>
+							<label>تلفن همراه <span>*</span></label>
+							<input type="text" asp-for="Mobile">
+							<span asp-validation-for="Mobile" class="text-danger"></span>
+						</p>
+						<p>
+							<label>کلمه عبور <span>*</span></label>
+							<input type="password" asp-for="Password">
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</p>
+						<p>
+							<label>تکرارکلمه عبور <span>*</span></label>
+							<input type="password" asp-for="ConfrimPassword">
+							<span asp-validation-for="ConfrimPassword" class="text-danger"></span>
 						</p>
 						<div class="login_submit">
 							<button type="submit">ثبت نام</button>

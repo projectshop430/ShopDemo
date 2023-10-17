@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ShopDemo.Data.Migrations
 {
-    public partial class initDatabase : Migration
+    public partial class initdabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,17 +15,17 @@ namespace ShopDemo.Data.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     EmailActiveCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IsEmailActive = table.Column<bool>(type: "bit", nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    MobileActiveCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Mobile = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    MobileActiveCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     IsMobileActive = table.Column<bool>(type: "bit", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Avatar = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    IsBlock = table.Column<bool>(type: "bit", nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    IsBlocked = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false)

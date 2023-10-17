@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
     <partial name="_HeaderReferences" />
+    @RenderSection("styles", false)
 
 </head>
 
@@ -20,6 +21,7 @@
     @await Component.InvokeAsync("SiteFooter")
 
     <partial name="_FooterReferences" />
+    @RenderSection("scripts", false)
     <partial name="_SiteMessages" />
 
 </body>

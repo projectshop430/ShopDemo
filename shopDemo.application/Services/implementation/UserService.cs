@@ -28,12 +28,29 @@ namespace shopDemo.application.Services.implementation
            await _Userrepository.DisposeAsync();
         }
 
-        public async Task<bool> IsUserExitByMobileNumber(string Mobile)
+		public async Task<User> GetUserByMobile(string mobile)
+		{
+            return await _Userrepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.Mobile == mobile);
+         }
+
+		public async Task<bool> IsUserExitByMobileNumber(string Mobile)
         {
             return await _Userrepository.GetQuery().AsQueryable().AnyAsync(x=>x.Mobile == Mobile);
         }
 
-        public async Task<RegisterUserResulte> RegisterUser(RegisterUserDTO register)
+		public async Task<LoginUserDTO.LoginUserResulte> GetUserForlogin(LoginUserDTO login)
+		{
+            var user =await _Userrepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.Mobile == login.Mobile);
+            if(user == null || user.Password!= _PasswordHelper.EncodePasswordMD5(login.Password)) 
+				return LoginUserDTO.LoginUserResulte.Notfound;
+	
+            if (!user.IsMobileActive)
+                return LoginUserDTO.LoginUserResulte.NotActivated;
+
+			return LoginUserDTO.LoginUserResulte.Success;
+		}
+
+		public async Task<RegisterUserResulte> RegisterUser(RegisterUserDTO register)
         {
             try
             {

@@ -22,5 +22,14 @@ namespace ShopDemo.Data.DTOs.Account
         {
             get; set;
         }
-    }
+
+        public bool RememberMe { get; set; }
+        public enum LoginUserResulte
+		{
+			Success,
+			Notfound,
+			NotActivated
+
+		}
+	}
 }

@@ -12,6 +12,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped(typeof(IGeneruicRepository<>), typeof(GentericRepository<>));
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IPasswordHelper,PasswordHelper>();
 
 builder.Services.AddDbContext<ShopDemoContext>(option =>
 {

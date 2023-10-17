@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopDemo.Data.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace shopDemo.application.Services.Interface
 {
     public interface IUserService :IAsyncDisposable
     {
+        Task<RegisterUserResulte> RegisterUser(RegisterUserDTO register);
+        Task<bool> IsUserExitByMobileNumber(string Mobile);
     }
 }

@@ -17,6 +17,10 @@ namespace ShopDemo.Controllers
         [HttpGet("register")]
         public IActionResult Register()
         {
+            TempData[SuccessMessage] = "ثبت نام شما با موفقیت انجام شد";
+            TempData[ErrorMessage] = "ثبت نام شما با موفقیت انجام شد";
+            TempData[InfoMessage] = "ثبت نام شما با موفقیت انجام شد";
+            TempData[WarningMessage] = "ثبت نام شما با موفقیت انجام شد";
             return View();
         }
         [HttpPost("register"),ValidateAntiForgeryToken]
@@ -29,16 +33,16 @@ namespace ShopDemo.Controllers
                 switch(res)
                 {
                     case RegisterUserResulte.MobileExit:
-                        TempData["ErrorMeassage"] = "تلفن همراه وارد شده تکراری می باشد";
+                        TempData[ErrorMessage] = "تلفن همراه وارد شده تکراری می باشد";
                         ModelState.AddModelError("Mobile", "تلفن همراه وارد شده تکراری می باشد");
                         break;
                     case RegisterUserResulte.Success:
-                        TempData["success"] = "ثبت نام شما با موفقیت انجام شد";
-                        TempData["infoMessage"] = "کد تلفن همراه برای شما ارسال می گردد";
+                        TempData[SuccessMessage] = "ثبت نام شما با موفقیت انجام شد";
+                        TempData[InfoMessage] = "کد تلفن همراه برای شما ارسال می گردد";
                         return RedirectToAction("Login");
                         break;
                     case RegisterUserResulte.Error:
-                        TempData["ErrorMeassage"] = "با خطا مواجه شدید";
+                        TempData[ErrorMessage] = "با خطا مواجه شدید";
                         ModelState.AddModelError("", "با خطا مواجه شدید");
                         break;
                 }

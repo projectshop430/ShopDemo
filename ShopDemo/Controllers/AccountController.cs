@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using GoogleReCaptcha.V3.Interface;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using shopDemo.application.Services.implementation;
@@ -11,13 +12,16 @@ namespace ShopDemo.Controllers
     public class AccountController : SiteBaseController
     {
         private readonly IUserService _userService;
+        private readonly ICaptchaValidator _captchaValidator;
 
-        public AccountController(IUserService userService)
-        {
-            _userService = userService;
-        }
+      
+		public AccountController(IUserService userService, ICaptchaValidator captchaValidator)
+		{
+			_userService = userService;
+			_captchaValidator = captchaValidator;
+		}
 
-        [HttpGet("register")]
+		[HttpGet("register")]
         public IActionResult Register()
         {
 			if (User.Identity.IsAuthenticated)
@@ -29,8 +33,12 @@ namespace ShopDemo.Controllers
         [HttpPost("register"),ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserDTO registerUserDTO)
         {
-
-            if (ModelState.IsValid)
+			if (!await _captchaValidator.IsCaptchaPassedAsync(registerUserDTO.Captcha))
+			{
+				TempData[ErrorMessage] = "کد امنیتی صحیح وارد نکردید";
+				return View();
+			}
+			if (ModelState.IsValid)
             {
                 var res = await _userService.RegisterUser(registerUserDTO);
                 switch(res)
@@ -64,6 +72,12 @@ namespace ShopDemo.Controllers
 		[HttpPost("Login"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginUserDTO Login)
         {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(Login.Captcha))
+            {
+                TempData[ErrorMessage] = "کد امنیتی صحیح وارد نکردید";
+                return View();
+            }
+
             if(ModelState.IsValid)
             {
                 var res = await _userService.GetUserForlogin(Login);
@@ -103,5 +117,13 @@ namespace ShopDemo.Controllers
             }
             return View();
         }
-    }
+        [HttpGet("log-out")]
+		public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
+        }
+
+
+	}
 }

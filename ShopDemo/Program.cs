@@ -1,3 +1,5 @@
+using GoogleReCaptcha.V3;
+using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.implementation;
@@ -15,6 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IGeneruicRepository<>), typeof(GentericRepository<>));
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IPasswordHelper,PasswordHelper>();
+builder.Services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
 #endregion
 #region Database
 builder.Services.AddDbContext<ShopDemoContext>(option =>

@@ -3,6 +3,11 @@
     ViewData["Title"] = "ثبت نام";
 }
 
+@section scripts
+	{
+	<partial name="_JqueryValidator" />
+	<partial name="_CaptchaScripts" />
+}
 <div class="breadcrumbs_area">
 	<div class="container">
 		<div class="row">
@@ -18,10 +23,6 @@
 	</div>
 </div>
 
-@section scripts
-{
-	<partial name="_JqueryValidator" />
-}
 
 <div class="customer_login mt-60">
 	<div class="container">
@@ -32,6 +33,7 @@
 				<div class="account_form register">
 					<h2>ثبت نام</h2>
 					<form  method="post" asp-asp-controller="Account" asp-action="Register">
+						<partial name="_CaptchaInput" /> <p>
 						<p>
 							<label>نام <span>*</span></label>
 							<input type="text" asp-for="FirstName" >

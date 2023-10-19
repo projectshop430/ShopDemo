@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopDemo.Data.DTOs.Site;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Xml.Linq;
 
 namespace ShopDemo.Data.DTOs.Account
 {
-    public class RegisterUserDTO
+    public class RegisterUserDTO :CaptchaViewModel
     {
         [Display(Name = "موبایل")]
         [Required(ErrorMessage = " لطفا {0} را وارد کنید")]

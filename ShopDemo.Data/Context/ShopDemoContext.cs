@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopDemo.Data.Entity.Account;
+using ShopDemo.Data.Entity.Site;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace ShopDemo.Data.Context
         }
 
         public DbSet<User> Users { get; set; }
-
+        public DbSet<SiteSetting> SiteSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

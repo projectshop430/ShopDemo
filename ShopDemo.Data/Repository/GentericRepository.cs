@@ -2,6 +2,7 @@
 using ShopDemo.Data.Context;
 using ShopDemo.Data.Entity.Comment;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,12 +15,14 @@ namespace ShopDemo.Data.Repository
     {
         private readonly ShopDemoContext _context;
         private readonly DbSet<TEnity> _dbset;
-
+     
         public GentericRepository(ShopDemoContext context)
         {
             _context = context;
             this._dbset = _context.Set<TEnity>();
-        }
+           
+
+		}
         public async Task AddEntity(TEnity enity)
         {
             enity.CreateDate= DateTime.Now;

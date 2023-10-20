@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using shopDemo.application.Services.implementation;
+using shopDemo.application.Services.Interface;
 
 namespace ShopDemo.ViewComponents
 {
@@ -7,8 +9,16 @@ namespace ShopDemo.ViewComponents
 
     public class SiteHeaderViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        private readonly ISiteService _siteService;
+
+		public SiteHeaderViewComponent(ISiteService siteService)
+		{
+			_siteService = siteService;
+		}
+
+		public async Task<IViewComponentResult> InvokeAsync()
         {
+            ViewBag.siteSetting = await _siteService.GetDefaultSiteSetting();
             return View("SiteHeader");
         }
     }
@@ -19,9 +29,17 @@ namespace ShopDemo.ViewComponents
 
     public class SiteFooterViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+		private readonly ISiteService _siteService;
+
+		public SiteFooterViewComponent(ISiteService siteService)
+		{
+			_siteService = siteService;
+		}
+
+		public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("SiteFooter");
+			ViewBag.siteSetting = await _siteService.GetDefaultSiteSetting();
+			return View("SiteFooter");
         }
     }
 

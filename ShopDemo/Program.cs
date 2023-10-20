@@ -18,6 +18,8 @@ builder.Services.AddScoped(typeof(IGeneruicRepository<>), typeof(GentericReposit
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IPasswordHelper,PasswordHelper>();
 builder.Services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
+builder.Services.AddScoped<ISiteService, SiteService>();
+
 #endregion
 #region Database
 builder.Services.AddDbContext<ShopDemoContext>(option =>

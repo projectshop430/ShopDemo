@@ -15,6 +15,7 @@ namespace shopDemo.application.Services.Interface
         Task<bool> IsUserExitByMobileNumber(string Mobile);
 		Task<LoginUserResulte> GetUserForlogin(LoginUserDTO login);
 
-        Task<User> GetUserByMobile(string mobile);
+		Task<ForgotPasswordResulte> RecoveryUerPassword(ForgotPasswordDTO forgot);
+		Task<User> GetUserByMobile(string mobile);
 	}
 }

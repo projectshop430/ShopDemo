@@ -117,7 +117,47 @@ namespace ShopDemo.Controllers
             }
             return View();
         }
-        [HttpGet("log-out")]
+
+		[HttpGet("forgot-pass")]
+		public IActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		[HttpPost("forgot-pass"), ValidateAntiForgeryToken]
+		public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO forgot)
+		{
+			if (!await _captchaValidator.IsCaptchaPassedAsync(forgot.Captcha))
+			{
+				TempData[ErrorMessage] = "کد کپچای شما تایید نشد";
+				return View(forgot);
+			}
+
+			if (ModelState.IsValid)
+			{
+				var result = await _userService.RecoveryUerPassword(forgot);
+				switch (result)
+				{
+					case ForgotPasswordResulte.NotFound:
+						TempData[WarningMessage] = "کاربر مورد نظر یافت نشد";
+						break;
+					case ForgotPasswordResulte.Success:
+						TempData[SuccessMessage] = "کلمه ی عبور جدید برای شما ارسال شد";
+						TempData[InfoMessage] = "لطفا پس از ورود به حساب کاربری ، کلمه ی عبور خود را تغییر دهید";
+						return RedirectToAction("Login");
+
+					case ForgotPasswordResulte.Eroor:
+						TempData[ErrorMessage] = "با خطا مواجه شدید";
+						ModelState.AddModelError("", "با خطا مواجه شدید");
+						break;
+				}
+			}
+
+			return View(forgot);
+		}
+
+
+		[HttpGet("log-out")]
 		public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

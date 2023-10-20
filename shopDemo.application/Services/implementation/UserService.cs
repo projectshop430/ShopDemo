@@ -84,5 +84,25 @@ namespace shopDemo.application.Services.implementation
             return RegisterUserResulte.Success;
            
         }
-    }
+
+		public async Task<ForgotPasswordResulte> RecoveryUerPassword(ForgotPasswordDTO forgot)
+		{
+            try
+            {
+
+                var user = await _Userrepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.Mobile == forgot.Mobile);
+                if (user == null) return ForgotPasswordResulte.NotFound;
+                var newPassword = new Random().Next(1000000, 9999999).ToString();
+                user.Password = _PasswordHelper.EncodePasswordMD5(newPassword);
+                _Userrepository.EditEnity(user);
+                //sms send
+                await _Userrepository.Savechanges();
+                return ForgotPasswordResulte.Success;
+            }
+            catch(Exception ex)
+            {
+                return ForgotPasswordResulte.Eroor;
+            }
+		}
+	}
 }

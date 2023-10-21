@@ -26,6 +26,7 @@ namespace ShopDemo.Data.Repository
         public async Task AddEntity(TEnity enity)
         {
             enity.CreateDate= DateTime.Now;
+            enity.LastUpdateDate= enity.CreateDate;
             await this._dbset.AddAsync(enity);
            
         }

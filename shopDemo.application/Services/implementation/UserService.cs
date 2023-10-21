@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient.Server;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using shopDemo.application.Services.Interface;
 using ShopDemo.Data.DTOs.Account;
 using ShopDemo.Data.Entity.Account;
@@ -16,14 +18,16 @@ namespace shopDemo.application.Services.implementation
     {
         private readonly IGeneruicRepository<User> _Userrepository;
         private readonly IPasswordHelper _PasswordHelper;
+		public readonly ISmsService _smsService;
 
-        public UserService(IGeneruicRepository<User> userrepository, IPasswordHelper passwordHelper)
-        {
-            _Userrepository = userrepository;
-            _PasswordHelper = passwordHelper;
-        }
+		public UserService(IGeneruicRepository<User> userrepository, IPasswordHelper passwordHelper, ISmsService smsService)
+		{
+			_Userrepository = userrepository;
+			_PasswordHelper = passwordHelper;
+			_smsService = smsService;
+		}
 
-        public async ValueTask DisposeAsync()
+		public async ValueTask DisposeAsync()
         {
            await _Userrepository.DisposeAsync();
         }
@@ -67,8 +71,9 @@ namespace shopDemo.application.Services.implementation
                     };
                     await _Userrepository.AddEntity(user);
                     await _Userrepository.Savechanges();
-                    //
-                    return RegisterUserResulte.Success;
+                    await _smsService.SendVerificationSms(user.Mobile, user.MobileActiveCode);
+					//
+					return RegisterUserResulte.Success;
                 }
                 else
                 {
@@ -103,6 +108,23 @@ namespace shopDemo.application.Services.implementation
             {
                 return ForgotPasswordResulte.Eroor;
             }
+		}
+
+		public async Task<bool> ActivateMobile(ActivateMobileDTO activate)
+		{
+			var user = await _Userrepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.Mobile == activate.Mobile);
+            if (user != null) 
+            {
+                if (user.MobileActiveCode==activate.MobileActiveCode)
+                {
+                    user.IsMobileActive = true;
+                    user.MobileActiveCode = new Random().Next(1000000, 9999999).ToString();
+                    await _Userrepository.Savechanges();
+                    return true;
+                }
+                
+            };
+            return false; 
 		}
 	}
 }

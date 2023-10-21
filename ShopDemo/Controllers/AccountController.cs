@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient.Server;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using shopDemo.application.Services.implementation;
 using shopDemo.application.Services.Interface;
 using ShopDemo.Data.DTOs.Account;
@@ -13,17 +15,19 @@ namespace ShopDemo.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICaptchaValidator _captchaValidator;
+    
 
-      
 		public AccountController(IUserService userService, ICaptchaValidator captchaValidator)
 		{
 			_userService = userService;
 			_captchaValidator = captchaValidator;
+		
 		}
 
 		[HttpGet("register")]
-        public IActionResult Register()
+        public  IActionResult Register()
         {
+        
 			if (User.Identity.IsAuthenticated)
 			{
 				return Redirect("/");
@@ -50,8 +54,8 @@ namespace ShopDemo.Controllers
                     case RegisterUserResulte.Success:
                         TempData[SuccessMessage] = "ثبت نام شما با موفقیت انجام شد";
                         TempData[InfoMessage] = "کد تلفن همراه برای شما ارسال می گردد";
-                        return RedirectToAction("Login");
-                        break;
+                        return RedirectToAction("ActivadeMobile", "Account",new {mobile=registerUserDTO.Mobile});
+                       
                     case RegisterUserResulte.Error:
                         TempData[ErrorMessage] = "با خطا مواجه شدید";
                         ModelState.AddModelError("", "با خطا مواجه شدید");
@@ -117,6 +121,44 @@ namespace ShopDemo.Controllers
             }
             return View();
         }
+
+		[HttpGet("activadeMobile/{mobile}")]
+		public IActionResult ActivadeMobile(String mobile)
+		{
+
+			if (User.Identity.IsAuthenticated)
+			{
+				return Redirect("/");
+			}
+			var activatemobileDTO = new ActivateMobileDTO { Mobile = mobile };
+			return View(activatemobileDTO);
+		}
+		[HttpPost("activadeMobile/{mobile}"), ValidateAntiForgeryToken]
+		public async Task<IActionResult> ActivadeMobile(ActivateMobileDTO activateMobileDTO)
+		{
+			if (!await _captchaValidator.IsCaptchaPassedAsync(activateMobileDTO.Captcha))
+			{
+				TempData[ErrorMessage] = "کد امنیتی صحیح وارد نکردید";
+				return View();
+			}
+			if (ModelState.IsValid)
+			{
+				var result = await _userService.ActivateMobile(activateMobileDTO);
+				if(result)
+				{
+					TempData[SuccessMessage] = "حسال کاربری شما با موفقیت فعال شد";
+					return RedirectToAction("Login");
+				}
+				
+					TempData[ErrorMessage] = "کاربری با مشخصات وارد شده یافت نشد ";
+				
+
+			}
+			return View(activateMobileDTO);
+		}
+
+
+
 
 		[HttpGet("forgot-pass")]
 		public IActionResult ForgotPassword()

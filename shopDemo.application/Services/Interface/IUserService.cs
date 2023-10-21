@@ -2,6 +2,7 @@
 using ShopDemo.Data.Entity.Account;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,6 @@ namespace shopDemo.application.Services.Interface
 
 		Task<ForgotPasswordResulte> RecoveryUerPassword(ForgotPasswordDTO forgot);
 		Task<User> GetUserByMobile(string mobile);
+		Task<bool> ActivateMobile(ActivateMobileDTO activate);
 	}
 }

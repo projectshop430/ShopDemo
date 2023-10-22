@@ -12,21 +12,30 @@ namespace shopDemo.application.Services.implementation
 {
     public class SiteService : ISiteService
 	{
-		private readonly IGeneruicRepository<SiteSetting> _siteServiceRepository;
+		private readonly IGeneruicRepository<SiteSetting> _siteSiteSettingRepository;
+		private readonly IGeneruicRepository<Slider> _sliderRepository;
 
-		public SiteService(IGeneruicRepository<SiteSetting> siteServiceRepository)
+		public SiteService(IGeneruicRepository<SiteSetting> siteServiceRepository, IGeneruicRepository<Slider> sliderRepository)
 		{
-			_siteServiceRepository = siteServiceRepository;
+			_siteSiteSettingRepository = siteServiceRepository;
+			_sliderRepository = sliderRepository;
 		}
 
 		public async  ValueTask DisposeAsync()
 		{
-			await _siteServiceRepository.DisposeAsync();
+			if (_siteSiteSettingRepository != null) await _siteSiteSettingRepository.DisposeAsync();
+			if (_sliderRepository != null) await _sliderRepository.DisposeAsync();
+		}
+
+		public async Task<List<Slider>> GetAllActiveSliders()
+		{
+			return await _sliderRepository.GetQuery().AsQueryable()
+			   .Where(s => s.IsActive && !s.IsDeleted).ToListAsync();
 		}
 
 		public async Task<SiteSetting> GetDefaultSiteSetting()
 		{
-			return await _siteServiceRepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.IsDefault && x.IsDeleted==false);
+			return await _siteSiteSettingRepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.IsDefault && x.IsDeleted==false);
 		}
 	}
 }

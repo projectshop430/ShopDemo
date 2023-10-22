@@ -20,6 +20,7 @@ namespace ShopDemo.Data.Context
         public DbSet<SiteSetting> SiteSettings { get; set; }
 
 		public DbSet<ContactUS> contactUses { get; set; }
+        public DbSet<Slider> sliderUses { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

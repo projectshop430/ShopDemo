@@ -28,7 +28,7 @@ namespace ShopDemo.Controllers
 		}
 
 		[HttpGet("contact-us")]
-		public async Task<IActionResult> ContactUs()
+		public IActionResult ContactUs()
 		{
 			return View();
 		}

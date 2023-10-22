@@ -43,7 +43,7 @@ namespace shopDemo.application.Services.implementation
 
         public async Task<List<SiteBanner>> GetSiteBannersByPlacement(List<BannerPlacement> placements)
         {
-            return await _banerrepository.GetQuery().AsQueryable().Where(x => placements.Any(y => y == x.BannerPlacement)).ToListAsync();
+            return await _banerrepository.GetQuery().AsQueryable().Where(x => placements.Contains(x.BannerPlacement)).ToListAsync();
         }
     }
 }

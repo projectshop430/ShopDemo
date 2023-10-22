@@ -23,19 +23,24 @@ namespace ShopDemo.Controllers
             _captchaValidator = captchaValidator;
             _siteService = siteService;
         }
+        #region index
 
         public async Task<IActionResult> Index()
-		{
-			var baners = await _siteService.GetSiteBannersByPlacement(new List<BannerPlacement>
-			{
-				BannerPlacement.Home_1,
-				BannerPlacement.Home_2,
-				BannerPlacement.Home_3,
-			});
-			return View();
-		}
+        {
+            ViewBag.banners = await _siteService
+                .GetSiteBannersByPlacement(new List<BannerPlacement>
+                {
+                    BannerPlacement.Home_1,
+                    BannerPlacement.Home_2,
+                    BannerPlacement.Home_3
+                });
 
-		[HttpGet("contact-us")]
+            return View();
+        }
+
+        #endregion
+
+        [HttpGet("contact-us")]
 		public IActionResult ContactUs()
 		{
 			return View();

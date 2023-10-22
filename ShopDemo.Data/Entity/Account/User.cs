@@ -1,4 +1,5 @@
 ﻿using ShopDemo.Data.Entity.Comment;
+using ShopDemo.Data.Entity.Contacts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace ShopDemo.Data.Entity.Account
 
 		#region relations
 
-
+		public ICollection<ContactUS> contactUs { get; set; }
 
 		#endregion
 	}

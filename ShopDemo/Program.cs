@@ -20,6 +20,7 @@ builder.Services.AddScoped<IPasswordHelper,PasswordHelper>();
 builder.Services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
 builder.Services.AddScoped<ISiteService, SiteService>();
 builder.Services.AddScoped<ISmsService, SmsService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 #endregion
 #region Database
 builder.Services.AddDbContext<ShopDemoContext>(option =>

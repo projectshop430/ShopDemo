@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopDemo.Data.Entity.Account;
+using ShopDemo.Data.Entity.Contacts;
 using ShopDemo.Data.Entity.Site;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace ShopDemo.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		public DbSet<ContactUS> contactUses { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach(var relationShip in modelBuilder.Model.GetEntityTypes().SelectMany(s=>s.GetForeignKeys()))
             {

@@ -21,8 +21,8 @@ namespace ShopDemo.Data.Context
 
 		public DbSet<ContactUS> contactUses { get; set; }
         public DbSet<Slider> sliderUses { get; set; }
-
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<SiteBanner> siteBanners { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach(var relationShip in modelBuilder.Model.GetEntityTypes().SelectMany(s=>s.GetForeignKeys()))
             {

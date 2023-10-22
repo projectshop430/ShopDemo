@@ -17,6 +17,12 @@ namespace shopDemo.application.Services.Interface
 
 		Task<List<Slider>> GetAllActiveSliders();
 
-		#endregion
-	}
+        #endregion
+
+        #region site banners
+
+        Task<List<SiteBanner>> GetSiteBannersByPlacement(List<BannerPlacement> placements);
+
+        #endregion
+    }
 }

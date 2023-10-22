@@ -14,18 +14,21 @@ namespace shopDemo.application.Services.implementation
 	{
 		private readonly IGeneruicRepository<SiteSetting> _siteSiteSettingRepository;
 		private readonly IGeneruicRepository<Slider> _sliderRepository;
+        private readonly IGeneruicRepository<SiteBanner> _banerrepository;
 
-		public SiteService(IGeneruicRepository<SiteSetting> siteServiceRepository, IGeneruicRepository<Slider> sliderRepository)
-		{
-			_siteSiteSettingRepository = siteServiceRepository;
-			_sliderRepository = sliderRepository;
-		}
+        public SiteService(IGeneruicRepository<SiteSetting> siteSiteSettingRepository, IGeneruicRepository<Slider> sliderRepository, IGeneruicRepository<SiteBanner> banerrepository)
+        {
+            _siteSiteSettingRepository = siteSiteSettingRepository;
+            _sliderRepository = sliderRepository;
+            _banerrepository = banerrepository;
+        }
 
-		public async  ValueTask DisposeAsync()
+        public async  ValueTask DisposeAsync()
 		{
 			if (_siteSiteSettingRepository != null) await _siteSiteSettingRepository.DisposeAsync();
 			if (_sliderRepository != null) await _sliderRepository.DisposeAsync();
-		}
+            if (_banerrepository != null) await _banerrepository.DisposeAsync();
+        }
 
 		public async Task<List<Slider>> GetAllActiveSliders()
 		{
@@ -37,5 +40,10 @@ namespace shopDemo.application.Services.implementation
 		{
 			return await _siteSiteSettingRepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.IsDefault && x.IsDeleted==false);
 		}
-	}
+
+        public async Task<List<SiteBanner>> GetSiteBannersByPlacement(List<BannerPlacement> placements)
+        {
+            return await _banerrepository.GetQuery().AsQueryable().Where(x => placements.Any(y => y == x.BannerPlacement)).ToListAsync();
+        }
+    }
 }

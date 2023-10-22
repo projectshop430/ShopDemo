@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using shopDemo.application.Services.implementation;
 using shopDemo.application.Services.Interface;
 using ShopDemo.Data.DTOs.Contacts;
+using ShopDemo.Data.Entity.Site;
 using ShopDemo.Models;
 using ShopDemo.PresentationExtensions;
 using System.Diagnostics;
@@ -14,16 +15,23 @@ namespace ShopDemo.Controllers
 		
 		private readonly IContactService _contactService;
 		private readonly ICaptchaValidator _captchaValidator;
+		private readonly ISiteService _siteService;
 
-		public HomeController(IContactService contactService, ICaptchaValidator captchaValidator)
-		{
-			_contactService = contactService;
-			_captchaValidator = captchaValidator;
-		}
+        public HomeController(IContactService contactService, ICaptchaValidator captchaValidator, ISiteService siteService)
+        {
+            _contactService = contactService;
+            _captchaValidator = captchaValidator;
+            _siteService = siteService;
+        }
 
-		public IActionResult Index()
+        public async Task<IActionResult> Index()
 		{
-			
+			var baners = await _siteService.GetSiteBannersByPlacement(new List<BannerPlacement>
+			{
+				BannerPlacement.Home_1,
+				BannerPlacement.Home_2,
+				BannerPlacement.Home_3,
+			});
 			return View();
 		}
 

@@ -31,6 +31,9 @@ namespace ShopDemo.Data.Entity.Site
         [Display(Name = "آدرس نقشه")]
         public string MapScript { get; set; }
 
+        [Display(Name = "درباره ما")]
+        public string AboutUs { get; set; }
+
         [Display(Name = "آدرس")]
         public string Address { get; set; }
 

@@ -9,5 +9,6 @@ namespace shopDemo.application.Services.Interface
 	public interface ISmsService
 	{
 		Task SendVerificationSms(string mobile,string activetioncode);
+		Task SendUserPasswordsms(string mobile, string password);
 	}
 }

@@ -101,6 +101,7 @@ namespace shopDemo.application.Services.implementation
                 user.Password = _PasswordHelper.EncodePasswordMD5(newPassword);
                 _Userrepository.EditEnity(user);
                 //sms send
+                await _smsService.SendUserPasswordsms(user.Mobile, newPassword);
                 await _Userrepository.Savechanges();
                 return ForgotPasswordResulte.Success;
             }

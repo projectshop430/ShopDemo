@@ -14,11 +14,18 @@ namespace shopDemo.application.Services.implementation
 
 		private string apikey = "sLI6vchWcpoCesrsdrLvj22ZaXeafctpKuv2GRQC406tUev0cxt7N4IOCxPAI8BU";
 
+		public async Task SendUserPasswordsms(string mobile, string password)
+		{
+			SmsIr smsIr = new SmsIr(apikey);
+
+			var bulkSendResult = await smsIr.VerifySendAsync(mobile, 100000, new VerifySendParameter[] { new("Code", password) });
+		}
+
 		public async Task SendVerificationSms(string mobile, string activetioncode)
 		{
 			SmsIr smsIr = new SmsIr(apikey);
 
-			var bulkSendResult = await smsIr.VerifySendAsync(mobile, 100000, new VerifySendParameter[] { new("Code", activetioncode) });
+			var bulkSendResult = await smsIr.VerifySendAsync(mobile, 823514, new VerifySendParameter[] { new("Code", activetioncode) });
 		}
 	}
 }

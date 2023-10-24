@@ -1,23 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopDemo.Data.DTOs.Account;
 
 namespace ShopDemo.Areas.User.Controllers
 {
 	public class AccountController : UserBaseController
 	{
-		#region constructor
+        #region constructor
 
 
 
-		#endregion
+        #endregion
 
-		#region user dashboard
+        #region user dashboard
 
-		[HttpGet("")]
-		public async Task<IActionResult> Dashboard()
-		{
-			return View();
-		}
+        [HttpGet("change-password")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
 
-		#endregion
-	}
+
+        [HttpPost("change-password"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO passwordDto)
+        {
+            return View();
+        }
+
+
+        #endregion
+    }
+
 }

@@ -8,7 +8,10 @@ namespace ShopDemo.Areas.User.Controllers
 	[Route("user")]
 	public class UserBaseController : Controller
 	{
-		
-		
+
+		protected string SuccessMessage = "SuccessMessage";
+		protected string WarningMessage = "WarningMessage";
+		protected string InfoMessage = "InfoMessage";
+		protected string ErrorMessage = "ErrorMessage";
 	}
 }

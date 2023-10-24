@@ -19,5 +19,6 @@ namespace shopDemo.application.Services.Interface
 		Task<ForgotPasswordResulte> RecoveryUerPassword(ForgotPasswordDTO forgot);
 		Task<User> GetUserByMobile(string mobile);
 		Task<bool> ActivateMobile(ActivateMobileDTO activate);
+		Task<bool> ChangeUserPassword(ChangePasswordDTO changePass, long currentUserId);
 	}
 }

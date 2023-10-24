@@ -127,5 +127,24 @@ namespace shopDemo.application.Services.implementation
             };
             return false; 
 		}
+
+		public async Task<bool> ChangeUserPassword(ChangePasswordDTO changePass, long currentUserId)
+		{
+			var user = await _Userrepository.GetEnitybyId(currentUserId);
+			if (user != null)
+			{
+				var newPassword = _PasswordHelper.EncodePasswordMD5(changePass.NewPassword);
+				if (newPassword != user.Password)
+				{
+					user.Password = newPassword;
+					_Userrepository.EditEnity(user);
+					await _Userrepository.Savechanges();
+
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
 }

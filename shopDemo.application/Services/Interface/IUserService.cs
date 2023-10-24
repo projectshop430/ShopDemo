@@ -1,4 +1,5 @@
-﻿using ShopDemo.Data.DTOs.Account;
+﻿using Microsoft.AspNetCore.Http;
+using ShopDemo.Data.DTOs.Account;
 using ShopDemo.Data.Entity.Account;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,6 @@ namespace shopDemo.application.Services.Interface
 		Task<bool> ActivateMobile(ActivateMobileDTO activate);
 		Task<bool> ChangeUserPassword(ChangePasswordDTO changePass, long currentUserId);
         Task<EditUserProfileDTO> GetProfileForEdit(long userId);
-        Task<EditUserProfileResult> EditUserProfile(EditUserProfileDTO profile, long userId);
+        Task<EditUserProfileResult> EditUserProfile(EditUserProfileDTO profile, long userId, IFormFile avatarImage);
     }
 }

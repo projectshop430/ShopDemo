@@ -1,7 +1,10 @@
-﻿using Microsoft.Data.SqlClient.Server;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using shopDemo.application.Extensions;
 using shopDemo.application.Services.Interface;
+using shopDemo.application.Utils;
 using ShopDemo.Data.DTOs.Account;
 using ShopDemo.Data.Entity.Account;
 using ShopDemo.Data.Repository;
@@ -147,7 +150,8 @@ namespace shopDemo.application.Services.implementation
 			return false;
 		}
 
-        public async Task<EditUserProfileResult> EditUserProfile(EditUserProfileDTO profile, long userId)
+
+        public async Task<EditUserProfileResult> EditUserProfile(EditUserProfileDTO profile, long userId, IFormFile avatarImage)
         {
             var user = await _Userrepository.GetEnitybyId(userId);
             if (user == null) return EditUserProfileResult.NotFound;
@@ -157,6 +161,14 @@ namespace shopDemo.application.Services.implementation
 
             user.FirstName = profile.FirstName;
             user.LastName = profile.LastName;
+
+            if (avatarImage != null && avatarImage.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(avatarImage.FileName);
+                avatarImage.AddImageToServer(imageName, PathExtension.UserAvatarOriginServer, 100, 100, PathExtension.UserAvatarThumbServer, user.Avatar);
+                user.Avatar = imageName;
+            }
+
             _Userrepository.EditEnity(user);
             await _Userrepository.Savechanges();
 

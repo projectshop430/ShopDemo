@@ -18,20 +18,26 @@ namespace shopDemo.application.Utils
         #region user avatar
 
         public static string UserAvatarOrigin = "/Content/Images/UserAvatar/origin/";
+        public static string UserAvatarOriginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Images/UserAvatar/origin/");
+
+        public static string UserAvatarThumb = "/Content/Images/UserAvatar/Thumb/";
+        public static string UserAvatarThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Images/UserAvatar/Thumb/");
+
 
         #endregion
+
         #region slider
 
         public static string SliderOrigin = "/img/slider/";
 
         #endregion
 
-        #region baner
+        #region banner
 
         public static string BannerOrigin = "/img/bg/";
 
         #endregion
-
-
     }
+
 }
+

@@ -146,5 +146,34 @@ namespace shopDemo.application.Services.implementation
 
 			return false;
 		}
-	}
+
+        public async Task<EditUserProfileResult> EditUserProfile(EditUserProfileDTO profile, long userId)
+        {
+            var user = await _Userrepository.GetEnitybyId(userId);
+            if (user == null) return EditUserProfileResult.NotFound;
+
+            if (user.IsBlocked) return EditUserProfileResult.IsBlocked;
+            if (!user.IsMobileActive) return EditUserProfileResult.IsNotActive;
+
+            user.FirstName = profile.FirstName;
+            user.LastName = profile.LastName;
+            _Userrepository.EditEnity(user);
+            await _Userrepository.Savechanges();
+
+            return EditUserProfileResult.Success;
+        }
+
+        public async Task<EditUserProfileDTO> GetProfileForEdit(long userId)
+        {
+            var user = await _Userrepository.GetEnitybyId(userId);
+            if (user == null) return null;
+
+            return new EditUserProfileDTO
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Avatar = user.Avatar
+            };
+        }
+    }
 }

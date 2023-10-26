@@ -19,7 +19,7 @@ namespace shopDemo.application.Services.Interface
         Task<FilterTicketDTO> FilterTickets(FilterTicketDTO filter);
         Task<TicketDetailDTO> GetTicketForShow(long ticketId, long userId);
 
-
+        Task<AnswerTicketResult> AnswerTicket(AnswerTicketDTO answer, long userId);
         #endregion
     }
 }

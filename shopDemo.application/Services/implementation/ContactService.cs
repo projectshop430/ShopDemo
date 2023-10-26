@@ -54,6 +54,28 @@ namespace shopDemo.application.Services.implementation
             return AddTicketResult.Success;
         }
 
+        public async Task<AnswerTicketResult> AnswerTicket(AnswerTicketDTO answer, long userId)
+        {
+            var ticket = await _ticketRepository.GetEnitybyId(answer.Id);
+            if (ticket == null) return AnswerTicketResult.NotFound;
+            if (ticket.OwnerId != userId) return AnswerTicketResult.NotForUser;
+
+            var ticketMessage = new TicketMessage
+            {
+                TicketId = ticket.Id,
+                SenderId = userId,
+                Text = answer.Text
+            };
+
+            await _ticketMessageRepository.AddEntity(ticketMessage);
+            await _ticketMessageRepository.Savechanges();
+
+            ticket.IsReadByAdmin = false;
+            ticket.IsReadByOwner = true;
+            await _ticketRepository.Savechanges();
+            return AnswerTicketResult.Success;
+        }
+
         public async Task CreateContactUs(CreateContactUsDTO contact, string userIp, long? userId)
 		{
 			ContactUS ContactUS = new ContactUS()

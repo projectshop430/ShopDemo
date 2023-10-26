@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.Interface;
 using ShopDemo.Data.DTOs.Contacts;
+using ShopDemo.Data.DTOs.Paging;
 using ShopDemo.Data.Entity.Contacts;
 using ShopDemo.Data.Repository;
 
@@ -120,7 +121,14 @@ namespace shopDemo.application.Services.implementation
 
             #endregion
 
-            return filter;
+            #region paging
+
+            var pager = Pager.Build(filter.PageId, await query.CountAsync(), filter.TakeEntity, filter.HowManyShowPageAfterAndBefore);
+            var allEntities = await query.Paging(pager).ToListAsync();
+
+            #endregion
+
+            return filter.SetPaging(pager).SetTickets(allEntities);
         }
     }
 }

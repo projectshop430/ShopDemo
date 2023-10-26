@@ -1,4 +1,5 @@
-﻿using ShopDemo.Data.Entity.Contacts;
+﻿using ShopDemo.Data.DTOs.Paging;
+using ShopDemo.Data.Entity.Contacts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShopDemo.Data.DTOs.Contacts
 {
-    public class FilterTicketDTO
+    public class FilterTicketDTO :BasePaging
     {
         #region properties
 
@@ -25,7 +26,30 @@ namespace ShopDemo.Data.DTOs.Contacts
 
         public List<Ticket> Tickets { get; set; }
 
+
+
         #endregion
+
+        #region methods
+
+        public FilterTicketDTO SetTickets(List<Ticket> tickets)
+        {
+            this.Tickets = tickets;
+            return this;
+        }
+
+        public FilterTicketDTO SetPaging(BasePaging paging)
+        {
+            this.PageId = paging.PageId;
+            this.AllEntitiesCount = paging.AllEntitiesCount;
+            this.StartPage = paging.StartPage;
+            this.EndPage = paging.EndPage;
+            this.HowManyShowPageAfterAndBefore = paging.HowManyShowPageAfterAndBefore;
+            this.TakeEntity = paging.TakeEntity;
+            this.SkipEntity = paging.SkipEntity;
+            this.PageCount = paging.PageCount;
+            return this;
+        }
     }
 
     public enum FilterTicketState

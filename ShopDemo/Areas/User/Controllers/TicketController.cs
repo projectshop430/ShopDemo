@@ -60,7 +60,7 @@ namespace ShopDemo.Areas.User.Controllers
             return View(ticket);
         }
 
-        #endregion
+        #endregion 
 
         #region show ticket detail
 

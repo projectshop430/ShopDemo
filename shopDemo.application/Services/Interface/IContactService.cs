@@ -9,6 +9,14 @@ namespace shopDemo.application.Services.Interface
 {
 	public interface IContactService :IAsyncDisposable
 	{
-		Task CreateContactUs(CreateContactUsDTO contact, string userIp, long? userId);
-	}
+        #region contact us
+        Task CreateContactUs(CreateContactUsDTO contact, string userIp, long? userId);
+        #endregion
+
+        #region ticket
+
+        Task<AddTicketResult> AddUserTicket(AddTicketViewModel ticket, long userId);
+
+        #endregion
+    }
 }

@@ -10,6 +10,7 @@ using System.Xml.Linq;
 
 namespace ShopDemo.Data.Entity.Contacts
 {
+
     public class Ticket : BaseEnity
     {
         #region properties

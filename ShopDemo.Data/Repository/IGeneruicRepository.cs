@@ -1,4 +1,5 @@
 ﻿using ShopDemo.Data.Entity.Comment;
+using ShopDemo.Data.Entity.Contacts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,6 @@ namespace ShopDemo.Data.Repository
         Task DeletePermanent(long entityID);
 
         Task Savechanges();
-
-
-
+      
     }
 }

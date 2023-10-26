@@ -64,4 +64,5 @@ namespace ShopDemo.Data.DTOs.Contacts
         CreateDate_DES,
         CreateDate_ASC,
     }
+    #endregion
 }

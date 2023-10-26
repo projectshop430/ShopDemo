@@ -1,9 +1,13 @@
 ﻿@using ShopDemo.Data.Entity.Site
-
+@using ShopDemo.Data.Entity.Account
+@using shopDemo.application.EntitiesExtensions
 @{
-
 	var siteSetting = ViewBag.siteSetting as SiteSetting;
+	var user = ViewBag.user as User;
 }
+
+
+
 <!--header area start-->
 <!--Offcanvas menu area start-->
 <div class="off_canvars_overlay">
@@ -33,7 +37,7 @@
 						else
 						{
 							<ul>
-								<li><a asp-area="User" asp-controller="Home" asp-action="Dashboard">@User.Identity.Name خوش آمدید </a></li>
+								<li><a asp-area="User" asp-controller="Home" asp-action="Dashboard">@user.GetUserShowName() خوش آمدید </a></li>
 								<li><a asp-controller="Acoount" asp-action="Logout"> خروج </a></li>
 							</ul>
 						}
@@ -252,7 +256,7 @@
 							else
 							{
 								<ul>
-									<li><a asp-area="User" asp-controller="Home" asp-action="Dashboard">@User.Identity.Name خوش آمدید </a></li>
+									<li><a asp-area="User" asp-controller="Home" asp-action="Dashboard">@user.GetUserShowName() خوش آمدید </a></li>
 									<li><a asp-controller="Account" asp-action="Logout"> خروج </a></li>
 								</ul>
 							}

@@ -67,7 +67,9 @@ namespace ShopDemo.Data.Entity.Account
 		#region relations
 
 		public ICollection<ContactUS> contactUs { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
+        public ICollection<TicketMessage> TicketMessages { get; set; }
 
-		#endregion
-	}
+        #endregion
+    }
 }

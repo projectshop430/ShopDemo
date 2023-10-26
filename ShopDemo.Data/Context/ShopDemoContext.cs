@@ -22,12 +22,18 @@ namespace ShopDemo.Data.Context
 		public DbSet<ContactUS> contactUses { get; set; }
         public DbSet<Slider> sliderUses { get; set; }
         public DbSet<SiteBanner> siteBanners { get; set; }
+
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketMessage> TicketMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach(var relationShip in modelBuilder.Model.GetEntityTypes().SelectMany(s=>s.GetForeignKeys()))
             {
-                relationShip.DeleteBehavior = DeleteBehavior.Cascade;
+                relationShip.DeleteBehavior = DeleteBehavior.Restrict;
             }
+         
+
             base.OnModelCreating(modelBuilder);
         }
     }

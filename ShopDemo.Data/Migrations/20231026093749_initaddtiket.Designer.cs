@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopDemo.Data.Context;
 
@@ -11,9 +12,10 @@ using ShopDemo.Data.Context;
 namespace ShopDemo.Data.Migrations
 {
     [DbContext(typeof(ShopDemoContext))]
-    partial class ShopDemoContextModelSnapshot : ModelSnapshot
+    [Migration("20231026093749_initaddtiket")]
+    partial class initaddtiket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,89 +142,6 @@ namespace ShopDemo.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("contactUses");
-                });
-
-            modelBuilder.Entity("ShopDemo.Data.Entity.Contacts.Ticket", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReadByAdmin")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReadByOwner")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("OwnerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("TicketPriority")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketSection")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketState")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("ShopDemo.Data.Entity.Contacts.TicketMessage", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("SenderId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("TicketId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SenderId");
-
-                    b.HasIndex("TicketId");
-
-                    b.ToTable("TicketMessages");
                 });
 
             modelBuilder.Entity("ShopDemo.Data.Entity.Site.SiteBanner", b =>
@@ -377,53 +296,14 @@ namespace ShopDemo.Data.Migrations
                     b.HasOne("ShopDemo.Data.Entity.Account.User", "User")
                         .WithMany("contactUs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ShopDemo.Data.Entity.Contacts.Ticket", b =>
-                {
-                    b.HasOne("ShopDemo.Data.Entity.Account.User", "Owner")
-                        .WithMany("Tickets")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("ShopDemo.Data.Entity.Contacts.TicketMessage", b =>
-                {
-                    b.HasOne("ShopDemo.Data.Entity.Account.User", "Sender")
-                        .WithMany("TicketMessages")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ShopDemo.Data.Entity.Contacts.Ticket", "Ticket")
-                        .WithMany("TicketMessages")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Sender");
-
-                    b.Navigation("Ticket");
-                });
-
             modelBuilder.Entity("ShopDemo.Data.Entity.Account.User", b =>
                 {
-                    b.Navigation("TicketMessages");
-
-                    b.Navigation("Tickets");
-
                     b.Navigation("contactUs");
-                });
-
-            modelBuilder.Entity("ShopDemo.Data.Entity.Contacts.Ticket", b =>
-                {
-                    b.Navigation("TicketMessages");
                 });
 #pragma warning restore 612, 618
         }

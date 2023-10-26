@@ -16,6 +16,8 @@ namespace shopDemo.application.Services.Interface
         #region ticket
 
         Task<AddTicketResult> AddUserTicket(AddTicketViewModel ticket, long userId);
+        Task<FilterTicketDTO> FilterTickets(FilterTicketDTO filter);
+
 
         #endregion
     }

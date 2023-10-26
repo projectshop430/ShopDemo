@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.Interface;
 using ShopDemo.Data.DTOs.Contacts;
 using ShopDemo.Data.Entity.Contacts;
@@ -72,5 +73,54 @@ namespace shopDemo.application.Services.implementation
 		{
 			await _contactUsRepository.DisposeAsync();	
 		}
-	}
+
+        public async Task<FilterTicketDTO> FilterTickets(FilterTicketDTO filter)
+        {
+            var query = _ticketRepository.GetQuery().AsQueryable();
+
+            #region state
+
+            switch (filter.FilterTicketState)
+            {
+                case FilterTicketState.All:
+                    break;
+                case FilterTicketState.Deleted:
+                    query = query.Where(s => s.IsDeleted);
+                    break;
+                case FilterTicketState.NotDeleted:
+                    query = query.Where(s => !s.IsDeleted);
+                    break;
+            }
+
+            switch (filter.OrderBy)
+            {
+                case FilterTicketOrder.CreateDate_ASC:
+                    query = query.OrderBy(s => s.CreateDate);
+                    break;
+                case FilterTicketOrder.CreateDate_DES:
+                    query = query.OrderByDescending(s => s.CreateDate);
+                    break;
+            }
+
+            #endregion
+
+            #region filter
+
+            if (filter.TicketSection != null)
+                query = query.Where(s => s.TicketSection == filter.TicketSection.Value);
+
+            if (filter.TicketPriority != null)
+                query = query.Where(s => s.TicketPriority == filter.TicketPriority.Value);
+
+            if (filter.UserId != null && filter.UserId != 0)
+                query = query.Where(s => s.OwnerId == filter.UserId.Value);
+
+            if (!string.IsNullOrEmpty(filter.Title))
+                query = query.Where(s => EF.Functions.Like(s.Title, $"%{filter.Title}%"));
+
+            #endregion
+
+            return filter;
+        }
+    }
 }

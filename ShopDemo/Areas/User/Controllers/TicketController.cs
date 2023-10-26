@@ -61,5 +61,15 @@ namespace ShopDemo.Areas.User.Controllers
         }
 
         #endregion
+
+        #region show ticket detail
+
+        [HttpGet("tickets/{ticketId}")]
+        public async Task<IActionResult> TicketDetail(long ticketId)
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

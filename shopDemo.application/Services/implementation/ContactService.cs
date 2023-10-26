@@ -22,7 +22,7 @@ namespace shopDemo.application.Services.implementation
             _ticketMessageRepository = ticketMessageRepository;
         }
 
-        public async Task<AddTicketResult> AddUserTicket(AddTicketViewModel ticket, long userId)
+        public async Task<AddTicketResult> AddUserTicket(AddTicketDTO ticket, long userId)
         {
             if (string.IsNullOrEmpty(ticket.Text)) return AddTicketResult.Error;
 
@@ -129,6 +129,23 @@ namespace shopDemo.application.Services.implementation
             #endregion
 
             return filter.SetPaging(pager).SetTickets(allEntities);
+        }
+
+        public async Task<TicketDetailDTO> GetTicketForShow(long ticketId, long userId)
+        {
+            var ticket = await _ticketRepository.GetQuery().AsQueryable()
+                  .Include(s => s.Owner)
+                  .SingleOrDefaultAsync(s => s.Id == ticketId);
+
+            if (ticket == null || ticket.OwnerId != userId) return null;
+
+            return new TicketDetailDTO
+            {
+                Ticket = ticket,
+                TicketMessages = await _ticketMessageRepository.GetQuery().AsQueryable()
+                    .OrderByDescending(s => s.CreateDate)
+                    .Where(s => s.TicketId == ticketId && !s.IsDeleted).ToListAsync()
+            };
         }
     }
 }

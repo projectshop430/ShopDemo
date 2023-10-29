@@ -22,6 +22,7 @@ builder.Services.AddScoped<ISiteService, SiteService>();
 builder.Services.AddScoped<ISmsService, SmsService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ISellerService, SellerService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 #endregion
 #region Database
 builder.Services.AddDbContext<ShopDemoContext>(option =>

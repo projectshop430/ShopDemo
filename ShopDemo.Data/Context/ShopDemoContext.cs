@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopDemo.Data.Entity.Account;
 using ShopDemo.Data.Entity.Contacts;
+using ShopDemo.Data.Entity.Products;
 using ShopDemo.Data.Entity.Site;
 using ShopDemo.Data.Entity.Store;
 using System;
@@ -28,6 +29,16 @@ namespace ShopDemo.Data.Context
         public DbSet<TicketMessage> TicketMessages { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
+
+        #region products
+
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductSelectedCategory> ProductSelectedCategories { get; set; }
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

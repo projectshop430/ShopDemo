@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ShopDemo.Areas.Admin.Controllers
 {
+
     [Authorize]
     [Area("Admin")]
     public class AdminBaseController : Controller

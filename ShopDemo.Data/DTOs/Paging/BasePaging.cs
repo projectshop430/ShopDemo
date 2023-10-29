@@ -34,5 +34,10 @@ namespace ShopDemo.Data.DTOs.Paging
 
         //چندصفحه قل چند صفحه بعد وجو دارد
         public int HowManyShowPageAfterAndBefore { get; set; }
+
+        public BasePaging GetCurrentPaging()
+        {
+            return this;
+        }
     }
 }

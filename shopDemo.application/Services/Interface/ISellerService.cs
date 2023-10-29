@@ -12,6 +12,7 @@ namespace shopDemo.application.Services.Interface
         #region seller
 
         Task<RequestSellerResult> AddNewSellerRequest(RequestSellerDTO seller, long userId);
+        Task<FilterSellerDTO> FilterSellers(FilterSellerDTO filter);
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿@model ShopDemo.Data.DTOs.Seller.FilterSellerDTO
+﻿@using shopDemo.application.Extensions
+@model ShopDemo.Data.DTOs.Seller.FilterSellerDTO
 @{
     ViewData["Title"] = "لیست درخواست ها";
 }
@@ -39,7 +40,7 @@
                                             <th>شناسه</th>
                                             <th>نام فروشگاه</th>
                                             <th>تلفن تماس</th>
-                                            <th>تلفن همراه</th>
+                                            <th>وضعیت فعلی</th>
                                             <th>دستورات</th>
                                         </tr>
                                     </thead>
@@ -50,8 +51,8 @@
                                                 <td>@seller.Id</td>
                                                 <td>@seller.StoreName</td>
                                                 <td>@seller.Phone</td>
-                                                <td>@seller.Mobile</td>
-                                                <td><a class="view">ویرایش</a></td>
+                                                <td>@seller.StoreAcceptanceState.GetEnumName()</td>
+                                                <td><a class="view" asp-area="User" asp-controller="Seller" asp-action="EditRequestSeller" asp-route-id="@seller.Id">ویرایش</a></td>
                                             </tr>
                                         }
                                     </tbody>

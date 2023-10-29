@@ -66,6 +66,21 @@ namespace shopDemo.application.Services.implementation
             await _sellerRepository.DisposeAsync();
         }
 
+        public async Task<EditRequestSellerResult> EditRequestSeller(EditRequestSellerDTO request, long currentUserId)
+        {
+            var seller = await _sellerRepository.GetEnitybyId(request.Id);
+            if (seller == null || seller.UserId != currentUserId) return EditRequestSellerResult.NotFound;
+
+            seller.Phone = request.Phone;
+            seller.Address = request.Address;
+            seller.StoreName = request.StoreName;
+            seller.StoreAcceptanceState = StoreAcceptanceState.UnderProgress;
+            _sellerRepository.EditEnity(seller);
+            await _sellerRepository.Savechanges();
+
+            return EditRequestSellerResult.Success;
+        }
+
         public async Task<FilterSellerDTO> FilterSellers(FilterSellerDTO filter)
         {
             var query = _sellerRepository.GetQuery()
@@ -120,6 +135,20 @@ namespace shopDemo.application.Services.implementation
             #endregion
 
             return filter.SetPaging(pager).SetSellers(allEntities);
+        }
+
+        public async Task<EditRequestSellerDTO> GetRequestSellerForEdit(long id, long currentUserId)
+        {
+            var seller = await _sellerRepository.GetEnitybyId(id);
+            if (seller == null || seller.UserId != currentUserId) return null;
+
+            return new EditRequestSellerDTO
+            {
+                Id = seller.Id,
+                Phone = seller.Phone,
+                Address = seller.Address,
+                StoreName = seller.StoreName
+            };
         }
 
         #endregion

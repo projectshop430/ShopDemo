@@ -13,7 +13,8 @@ namespace shopDemo.application.Services.Interface
 
         Task<RequestSellerResult> AddNewSellerRequest(RequestSellerDTO seller, long userId);
         Task<FilterSellerDTO> FilterSellers(FilterSellerDTO filter);
-
+        Task<EditRequestSellerDTO> GetRequestSellerForEdit(long id, long currentUserId);
+        Task<EditRequestSellerResult> EditRequestSeller(EditRequestSellerDTO request, long currentUserId);
         #endregion
     }
 }

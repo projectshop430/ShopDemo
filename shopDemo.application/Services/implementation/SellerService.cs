@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.Interface;
+using ShopDemo.Data.DTOs.Common;
 using ShopDemo.Data.DTOs.Paging;
 using ShopDemo.Data.DTOs.Seller;
 using ShopDemo.Data.Entity.Account;
@@ -33,6 +34,7 @@ namespace shopDemo.application.Services.implementation
             if (sellerRequest != null)
             {
                 sellerRequest.StoreAcceptanceState = StoreAcceptanceState.Accepted;
+                sellerRequest.StoreAcceptanceDescription = "اطلاعات پنل فروشندگی شما تایید شده است";
                 _sellerRepository.EditEnity(sellerRequest);
                 await _sellerRepository.Savechanges();
 
@@ -164,6 +166,21 @@ namespace shopDemo.application.Services.implementation
                 Address = seller.Address,
                 StoreName = seller.StoreName
             };
+        }
+
+        public async Task<bool> RejectSellerRequest(RejectItemDTO reject)
+        {
+            var seller = await _sellerRepository.GetEnitybyId(reject.Id);
+            if (seller != null)
+            {
+                seller.StoreAcceptanceState = StoreAcceptanceState.Rejected;
+                seller.StoreAcceptanceDescription = reject.RejectMessage;
+                _sellerRepository.EditEnity(seller);
+                await _sellerRepository.Savechanges();
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

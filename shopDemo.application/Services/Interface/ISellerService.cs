@@ -1,4 +1,5 @@
-﻿using ShopDemo.Data.DTOs.Seller;
+﻿using ShopDemo.Data.DTOs.Common;
+using ShopDemo.Data.DTOs.Seller;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace shopDemo.application.Services.Interface
         Task<EditRequestSellerDTO> GetRequestSellerForEdit(long id, long currentUserId);
         Task<EditRequestSellerResult> EditRequestSeller(EditRequestSellerDTO request, long currentUserId);
         Task<bool> AcceptSellerRequest(long requestId);
+        Task<bool> RejectSellerRequest(RejectItemDTO reject);
+
         #endregion
     }
 }

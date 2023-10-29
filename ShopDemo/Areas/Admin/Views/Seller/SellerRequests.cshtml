@@ -1,5 +1,6 @@
 ﻿@using shopDemo.application.Extensions
 @using ShopDemo.Data.DTOs.Seller
+@using ShopDemo.Data.Entity.Store
 @model ShopDemo.Data.DTOs.Seller.FilterSellerDTO
 @{
     ViewData["Title"] = "درخواست های فروشندگی";
@@ -91,7 +92,7 @@
                 <tbody>
                     @foreach (var seller in Model.Sellers)
                     {
-                        <tr>
+                        <tr id="ajax-url-item-@seller.Id">
                             <td>
                                 @seller.Id
                             </td>
@@ -105,6 +106,10 @@
                                 @seller.StoreAcceptanceState.GetEnumName()
                             </td>
                             <td>
+                                @if (seller.StoreAcceptanceState != StoreAcceptanceState.Accepted)
+                                {
+                                    <a class="btn btn-success" ajax-url-button="@seller.Id" asp-area="Admin" asp-controller="Seller" asp-action="AcceptSellerRequest" asp-route-requestId="@seller.Id">تایید اطلاعات</a>
+                                }
                             </td>
                         </tr>
                     }

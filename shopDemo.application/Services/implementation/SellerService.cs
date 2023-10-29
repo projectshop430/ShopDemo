@@ -27,6 +27,21 @@ namespace shopDemo.application.Services.implementation
             _userRepository = userRepository;
         }
 
+        public async Task<bool> AcceptSellerRequest(long requestId)
+        {
+            var sellerRequest = await _sellerRepository.GetEnitybyId(requestId);
+            if (sellerRequest != null)
+            {
+                sellerRequest.StoreAcceptanceState = StoreAcceptanceState.Accepted;
+                _sellerRepository.EditEnity(sellerRequest);
+                await _sellerRepository.Savechanges();
+
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region seller

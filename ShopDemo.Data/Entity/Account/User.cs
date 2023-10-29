@@ -1,5 +1,6 @@
 ﻿using ShopDemo.Data.Entity.Comment;
 using ShopDemo.Data.Entity.Contacts;
+using ShopDemo.Data.Entity.Store;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace ShopDemo.Data.Entity.Account
 		public ICollection<ContactUS> contactUs { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
         public ICollection<TicketMessage> TicketMessages { get; set; }
+        public ICollection<Seller> Sellers { get; set; }
 
         #endregion
     }

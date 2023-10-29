@@ -2,6 +2,7 @@
 using ShopDemo.Data.Entity.Account;
 using ShopDemo.Data.Entity.Contacts;
 using ShopDemo.Data.Entity.Site;
+using ShopDemo.Data.Entity.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace ShopDemo.Data.Context
 
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketMessage> TicketMessages { get; set; }
+
+        public DbSet<Seller> Sellers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

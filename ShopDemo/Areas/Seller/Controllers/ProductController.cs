@@ -2,6 +2,7 @@
 using shopDemo.application.Services.implementation;
 using shopDemo.application.Services.Interface;
 using ShopDemo.Data.DTOs.Products;
+using ShopDemo.Http;
 using ShopDemo.PresentationExtensions;
 
 namespace ShopDemo.Areas.Seller.Controllers
@@ -24,7 +25,7 @@ namespace ShopDemo.Areas.Seller.Controllers
 
         #region list
 
-        [HttpGet("list")]
+        [HttpGet("products-list")]
         public async Task<IActionResult> Index(FilterProductDTO filter)
         {
             var seller = await _sellerService.GetLastActiveSellerByUserId(User.GetUserId());
@@ -55,6 +56,18 @@ namespace ShopDemo.Areas.Seller.Controllers
 
             ViewBag.Categories = await _productService.GetAllActiveProductCategories();
             return View(product);
+        }
+
+        #endregion
+
+        #region product categories
+
+        [HttpGet("product-categories/{parentId}")]
+        public async Task<IActionResult> GetProductCategoriesByParent(long parentId)
+        {
+            var categories = await _productService.GetAllProductCategoriesByParentId(parentId);
+
+            return JsonResponseStatus.SendStatus(JsonResponseStatusType.Success, "اطلاعات دسته بندی ها", categories);
         }
 
         #endregion

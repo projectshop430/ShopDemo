@@ -52,7 +52,7 @@ namespace shopDemo.application.Services.implementation
                     IsActive = product.IsActive,
                     SellerId = sellerId,
                     ImageName = imageName,
-                    ProductAcceptOrRejectDescription = "",
+                    ProductAcceptanceState = ProductAcceptanceState.UnderProgress
                 };
 
                 await _productRepository.AddEntity(newProduct);

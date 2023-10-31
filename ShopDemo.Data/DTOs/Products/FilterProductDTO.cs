@@ -2,9 +2,11 @@
 using ShopDemo.Data.Entity.Products;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ShopDemo.Data.DTOs.Products
 {
@@ -48,11 +50,17 @@ namespace ShopDemo.Data.DTOs.Products
 
     public enum FilterProductState
     {
+        [Display(Name = "همه")]
         All,
+        [Display(Name = "در حال بررسی")]
         UnderProgress,
+        [Display(Name = "تایید شده")]
         Accepted,
+        [Display(Name = "رد شده")]
         Rejected,
+        [Display(Name = "فعال")]
         Active,
+        [Display(Name = "غیر فعال")]
         NotActive
     }
 }

@@ -16,7 +16,7 @@ namespace ShopDemo.Data.DTOs.Products
         public string Title { get; set; }
 
         [Display(Name = "قیمت محصول")]
-        public int? Price { get; set; }
+        public int Price { get; set; }
 
         [Display(Name = "توضیحات کوتاه")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

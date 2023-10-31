@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Extensions;
 using shopDemo.application.Services.Interface;
 using shopDemo.application.Utils;
+using ShopDemo.Data.DTOs.Common;
 using ShopDemo.Data.DTOs.Paging;
 using ShopDemo.Data.DTOs.Products;
 using ShopDemo.Data.Entity.Products;
@@ -30,6 +31,21 @@ namespace shopDemo.application.Services.implementation
             _productCategoryRepository = productCategoryRepository;
             _productSelectedCategoryRepository = productSelectedCategoryRepository;
             _productColorRepository = productColorRepository;
+        }
+
+        public async Task<bool> AcceptSellerProduct(long productId)
+        {
+            var product = await _productRepository.GetEnitybyId(productId);
+            if (product != null)
+            {
+                product.ProductAcceptanceState = ProductAcceptanceState.Accepted;
+                product.ProductAcceptOrRejectDescription = $"محصول مورد نظر در تاریخ {DateTime.Now.ToShamsi()} مورد تایید سایت قرار گرفت";
+                _productRepository.EditEnity(product);
+                await _productRepository.Savechanges();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<CreateProductResult> CreateProduct(CreateProductDTO product, long sellerId, IFormFile productImage)
@@ -177,6 +193,22 @@ namespace shopDemo.application.Services.implementation
                 .AsQueryable()
                 .Where(s => !s.IsDeleted && s.IsActive && s.ParentId == parentId)
                 .ToListAsync();
+        }
+
+        public async Task<bool> RejectSellerProduct(RejectItemDTO reject)
+        {
+            var product = await _productRepository.GetEnitybyId(reject.Id);
+            if (product != null)
+            {
+                product.ProductAcceptanceState = ProductAcceptanceState.Rejected;
+                product.ProductAcceptOrRejectDescription = reject.RejectMessage;
+                _productRepository.EditEnity(product);
+                await _productRepository.Savechanges();
+
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

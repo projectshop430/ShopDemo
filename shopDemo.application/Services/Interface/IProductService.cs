@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using ShopDemo.Data.DTOs.Common;
 using ShopDemo.Data.DTOs.Products;
 using ShopDemo.Data.Entity.Products;
 using System;
@@ -15,6 +16,9 @@ namespace shopDemo.application.Services.Interface
 
         Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
         Task<CreateProductResult> CreateProduct(CreateProductDTO product, long sellerId, IFormFile productImage);
+
+        Task<bool> AcceptSellerProduct(long productId);
+        Task<bool> RejectSellerProduct(RejectItemDTO reject);
 
         #endregion
 

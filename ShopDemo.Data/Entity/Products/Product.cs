@@ -61,8 +61,11 @@ namespace ShopDemo.Data.Entity.Products
 
     public enum ProductAcceptanceState
     {
+        [Display(Name = "در حال بررسی")]
         UnderProgress,
+        [Display(Name = "تایید شده")]
         Accepted,
+        [Display(Name = "رد شده")]
         Rejected
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopDemo.Data.DTOs.Products;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace shopDemo.application.Services.Interface
 {
     public interface IProductService : IAsyncDisposable
     {
+        #region products
 
+        Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
+
+        #endregion
     }
 }

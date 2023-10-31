@@ -1,5 +1,6 @@
 ﻿using ShopDemo.Data.DTOs.Common;
 using ShopDemo.Data.DTOs.Seller;
+using ShopDemo.Data.Entity.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace shopDemo.application.Services.Interface
         Task<EditRequestSellerResult> EditRequestSeller(EditRequestSellerDTO request, long currentUserId);
         Task<bool> AcceptSellerRequest(long requestId);
         Task<bool> RejectSellerRequest(RejectItemDTO reject);
+
+        Task<Seller> GetLastActiveSellerByUserId(long userId);
 
         #endregion
     }

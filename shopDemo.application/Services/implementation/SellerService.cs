@@ -154,6 +154,14 @@ namespace shopDemo.application.Services.implementation
             return filter.SetPaging(pager).SetSellers(allEntities);
         }
 
+        public async Task<Seller> GetLastActiveSellerByUserId(long userId)
+        {
+            return await _sellerRepository.GetQuery()
+                   .OrderByDescending(s => s.CreateDate)
+                   .FirstOrDefaultAsync(s =>
+                       s.UserId == userId && s.StoreAcceptanceState == StoreAcceptanceState.Accepted);
+        }
+
         public async Task<EditRequestSellerDTO> GetRequestSellerForEdit(long id, long currentUserId)
         {
             var seller = await _sellerRepository.GetEnitybyId(id);

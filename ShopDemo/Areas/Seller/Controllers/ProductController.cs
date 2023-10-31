@@ -20,12 +20,11 @@ namespace ShopDemo.Areas.Seller.Controllers
             _sellerService = sellerService;
         }
 
-
         #endregion
 
         #region list
 
-        [HttpGet("products")]
+        [HttpGet("list")]
         public async Task<IActionResult> Index(FilterProductDTO filter)
         {
             var seller = await _sellerService.GetLastActiveSellerByUserId(User.GetUserId());
@@ -36,26 +35,25 @@ namespace ShopDemo.Areas.Seller.Controllers
 
         #endregion
 
-
         #region create product
 
         [HttpGet("create-product")]
         public async Task<IActionResult> CreateProduct()
         {
-            ViewBag.MainCategories = await _productService.GetAllProductCategoriesByParentId(null);
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
 
             return View();
         }
 
         [HttpPost("create-product"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProduct(CreateProductDTO product)
+        public async Task<IActionResult> CreateProduct(CreateProductDTO product, IFormFile productImage)
         {
             if (ModelState.IsValid)
             {
                 // todo: create product
             }
 
-            ViewBag.MainCategories = await _productService.GetAllProductCategoriesByParentId(null);
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
             return View(product);
         }
 

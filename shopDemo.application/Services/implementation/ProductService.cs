@@ -27,6 +27,31 @@ namespace shopDemo.application.Services.implementation
             _productSelectedCategoryRepository = productSelectedCategoryRepository;
         }
 
+        public async Task<CreateProductResult> CreateProduct(CreateProductDTO product, string imageName, long sellerId)
+        {
+            // create product
+            var newProduct = new Product
+            {
+                Title = product.Title,
+                Price = product.Price,
+                ShortDescription = product.ShortDescription,
+                Description = product.Description,
+                IsActive = product.IsActive,
+                SellerId = sellerId,
+                ImageName = imageName,
+            };
+
+            await _productRepository.AddEntity(newProduct);
+            await _productRepository.Savechanges();
+
+            // create product categories
+
+
+            // create product colors
+
+            return CreateProductResult.Success;
+        }
+
 
         #endregion
 
@@ -84,6 +109,12 @@ namespace shopDemo.application.Services.implementation
             #endregion
 
             return filter.SetProducts(allEntities).SetPaging(pager);
+        }
+
+        public async Task<List<ProductCategory>> GetAllActiveProductCategories()
+        {
+            return await _productCategoryRepository.GetQuery().AsQueryable()
+                 .Where(s => s.IsActive && !s.IsDeleted).ToListAsync();
         }
 
         public async Task<List<ProductCategory>> GetAllProductCategoriesByParentId(long? parentId)

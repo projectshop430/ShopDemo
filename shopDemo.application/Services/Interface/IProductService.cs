@@ -13,12 +13,14 @@ namespace shopDemo.application.Services.Interface
         #region products
 
         Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
+        Task<CreateProductResult> CreateProduct(CreateProductDTO product, string imageName, long sellerId);
 
         #endregion
 
         #region product categories
 
         Task<List<ProductCategory>> GetAllProductCategoriesByParentId(long? parentId);
+        Task<List<ProductCategory>> GetAllActiveProductCategories();
 
         #endregion
     }

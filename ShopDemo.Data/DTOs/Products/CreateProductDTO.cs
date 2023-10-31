@@ -31,5 +31,13 @@ namespace ShopDemo.Data.DTOs.Products
         public bool IsActive { get; set; }
 
         public List<CreateProductColorDTO> ProductColors { get; set; }
+
+        public List<long> SelectedCategories { get; set; }
+    }
+
+    public enum CreateProductResult
+    {
+        Success,
+        Error
     }
 }

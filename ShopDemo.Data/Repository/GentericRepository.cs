@@ -31,6 +31,15 @@ namespace ShopDemo.Data.Repository
            
         }
 
+        public async Task AddRangeEntities(List<TEnity> entities)
+        {
+
+            foreach (var entity in entities)
+            {
+                await AddEntity(entity);
+            }
+        }
+
         public void DeleteEntity(TEnity entity)
         {
             entity.IsDeleted = true;

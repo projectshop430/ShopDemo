@@ -13,6 +13,7 @@ namespace ShopDemo.Data.Repository
     {
         IQueryable<TEntity> GetQuery();
 
+        Task AddRangeEntities(List<TEntity> entities);
         Task AddEntity(TEntity entity);
         Task<TEntity> GetEnitybyId(long enityId);
        void EditEnity(TEntity entity);

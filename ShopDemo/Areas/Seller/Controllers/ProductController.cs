@@ -30,7 +30,7 @@ namespace ShopDemo.Areas.Seller.Controllers
         {
             var seller = await _sellerService.GetLastActiveSellerByUserId(User.GetUserId());
             filter.SellerId = seller.Id;
-            filter.FilterProductState = FilterProductState.Active;
+            filter.FilterProductState = FilterProductState.All;
             return View(await _productService.FilterProducts(filter));
         }
 
@@ -49,12 +49,29 @@ namespace ShopDemo.Areas.Seller.Controllers
         [HttpPost("create-product"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProduct(CreateProductDTO product, IFormFile productImage)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // todo: create product
+                var seller = await _sellerService.GetLastActiveSellerByUserId(User.GetUserId());
+                var res = await _productService.CreateProduct(product, seller.Id, productImage);
+
+
+
+                switch (res)
+                {
+                    case CreateProductResult.HasNoImage:
+                        TempData[WarningMessage] = "لطفا تصویر محصول را وارد نمایید";
+                        break;
+                    case CreateProductResult.Error:
+                        TempData[ErrorMessage] = "عملیات ثبت محصول با خطا مواجه شد";
+                        break;
+                    case CreateProductResult.Success:
+                        TempData[SuccessMessage] = $"محصول مورد نظر با عنوان {product.Title} با موفقیت ثبت شد";
+                        return RedirectToAction("Index");
+                }
             }
 
             ViewBag.Categories = await _productService.GetAllActiveProductCategories();
+
             return View(product);
         }
 

@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using shopDemo.application.Extensions;
 using shopDemo.application.Services.Interface;
+using shopDemo.application.Utils;
 using ShopDemo.Data.DTOs.Paging;
 using ShopDemo.Data.DTOs.Products;
 using ShopDemo.Data.Entity.Products;
@@ -19,38 +22,79 @@ namespace shopDemo.application.Services.implementation
         private readonly IGeneruicRepository<Product> _productRepository;
         private readonly IGeneruicRepository<ProductCategory> _productCategoryRepository;
         private readonly IGeneruicRepository<ProductSelectedCategory> _productSelectedCategoryRepository;
+        private readonly IGeneruicRepository<ProductColor> _productColorRepository;
 
-        public ProductService(IGeneruicRepository<Product> productRepository, IGeneruicRepository<ProductCategory> productCategoryRepository, IGeneruicRepository<ProductSelectedCategory> productSelectedCategoryRepository)
+        public ProductService(IGeneruicRepository<Product> productRepository, IGeneruicRepository<ProductCategory> productCategoryRepository, IGeneruicRepository<ProductSelectedCategory> productSelectedCategoryRepository, IGeneruicRepository<ProductColor> productColorRepository)
         {
             _productRepository = productRepository;
             _productCategoryRepository = productCategoryRepository;
             _productSelectedCategoryRepository = productSelectedCategoryRepository;
+            _productColorRepository = productColorRepository;
         }
 
-        public async Task<CreateProductResult> CreateProduct(CreateProductDTO product, string imageName, long sellerId)
+        public async Task<CreateProductResult> CreateProduct(CreateProductDTO product, long sellerId, IFormFile productImage)
         {
-            // create product
-            var newProduct = new Product
+            if (productImage == null) return CreateProductResult.HasNoImage;
+
+            var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(productImage.FileName);
+
+            var res = productImage.AddImageToServer(imageName, PathExtension.ProductImageImageServer, 150, 150, PathExtension.ProductThumbnailImageImageServer);
+
+            if (res)
             {
-                Title = product.Title,
-                Price = product.Price,
-                ShortDescription = product.ShortDescription,
-                Description = product.Description,
-                IsActive = product.IsActive,
-                SellerId = sellerId,
-                ImageName = imageName,
-            };
+                // create product
+                var newProduct = new Product
+                {
+                    Title = product.Title,
+                    Price = product.Price,
+                    ShortDescription = product.ShortDescription,
+                    Description = product.Description,
+                    IsActive = product.IsActive,
+                    SellerId = sellerId,
+                    ImageName = imageName,
+                    ProductAcceptOrRejectDescription = "",
+                };
 
-            await _productRepository.AddEntity(newProduct);
-            await _productRepository.Savechanges();
+                await _productRepository.AddEntity(newProduct);
+                await _productRepository.Savechanges();
 
-            // create product categories
+                // create product categories
+                var productSelectedCategories = new List<ProductSelectedCategory>();
 
+                foreach (var categoryId in product.SelectedCategories)
+                {
+                    productSelectedCategories.Add(new ProductSelectedCategory
+                    {
+                        ProductCategoryId = categoryId,
+                        ProductId = newProduct.Id
+                    });
+                }
 
-            // create product colors
+                await _productSelectedCategoryRepository.AddRangeEntities(productSelectedCategories);
+                await _productSelectedCategoryRepository.Savechanges();
 
-            return CreateProductResult.Success;
+                // create product colors
+                var productSelectedColors = new List<ProductColor>();
+
+                foreach (var productColor in product.ProductColors)
+                {
+                    productSelectedColors.Add(new ProductColor
+                    {
+                        ColorName = productColor.ColorName,
+                        Price = productColor.Price,
+                        ProductId = newProduct.Id
+                    });
+                }
+
+                await _productColorRepository.AddRangeEntities(productSelectedColors);
+                await _productSelectedCategoryRepository.Savechanges();
+
+                return CreateProductResult.Success;
+            }
+
+            return CreateProductResult.Error;
         }
+
 
 
         #endregion
@@ -72,6 +116,8 @@ namespace shopDemo.application.Services.implementation
 
             switch (filter.FilterProductState)
             {
+                case FilterProductState.All:
+                    break;
                 case FilterProductState.Active:
                     query = query.Where(s => s.IsActive && s.ProductAcceptanceState == ProductAcceptanceState.Accepted);
                     break;

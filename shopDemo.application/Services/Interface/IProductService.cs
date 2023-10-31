@@ -1,4 +1,5 @@
-﻿using ShopDemo.Data.DTOs.Products;
+﻿using Microsoft.AspNetCore.Http;
+using ShopDemo.Data.DTOs.Products;
 using ShopDemo.Data.Entity.Products;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace shopDemo.application.Services.Interface
         #region products
 
         Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
-        Task<CreateProductResult> CreateProduct(CreateProductDTO product, string imageName, long sellerId);
+        Task<CreateProductResult> CreateProduct(CreateProductDTO product, long sellerId, IFormFile productImage);
 
         #endregion
 

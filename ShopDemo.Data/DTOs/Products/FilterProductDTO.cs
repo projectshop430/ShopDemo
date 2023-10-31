@@ -48,6 +48,7 @@ namespace ShopDemo.Data.DTOs.Products
 
     public enum FilterProductState
     {
+        All,
         UnderProgress,
         Accepted,
         Rejected,

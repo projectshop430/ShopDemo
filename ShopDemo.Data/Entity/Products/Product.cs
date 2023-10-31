@@ -27,7 +27,6 @@ namespace ShopDemo.Data.Entity.Products
         public string ImageName { get; set; }
 
         [Display(Name = "قیمت محصول")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int Price { get; set; }
 
         [Display(Name = "توضیحات کوتاه")]
@@ -53,7 +52,7 @@ namespace ShopDemo.Data.Entity.Products
         #region relations
 
         public ICollection<ProductSelectedCategory> ProductSelectedCategories { get; set; }
-
+        public ICollection<ProductColor> ProductColors { get; set; }
         public Seller Seller { get; set; }
 
         #endregion

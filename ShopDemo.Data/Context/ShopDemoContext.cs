@@ -38,6 +38,8 @@ namespace ShopDemo.Data.Context
 
         public DbSet<ProductSelectedCategory> ProductSelectedCategories { get; set; }
 
+        public DbSet<ProductColor> ProductColors { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

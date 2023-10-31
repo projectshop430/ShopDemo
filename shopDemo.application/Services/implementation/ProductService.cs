@@ -86,6 +86,22 @@ namespace shopDemo.application.Services.implementation
             return filter.SetProducts(allEntities).SetPaging(pager);
         }
 
+        public async Task<List<ProductCategory>> GetAllProductCategoriesByParentId(long? parentId)
+        {
+            if (parentId == null || parentId == 0)
+            {
+                return await _productCategoryRepository.GetQuery()
+                    .AsQueryable()
+                    .Where(s => !s.IsDeleted && s.IsActive)
+                    .ToListAsync();
+            }
+
+            return await _productCategoryRepository.GetQuery()
+                .AsQueryable()
+                .Where(s => !s.IsDeleted && s.IsActive && s.ParentId == parentId)
+                .ToListAsync();
+        }
+
         #endregion
     }
 }

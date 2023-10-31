@@ -1,4 +1,5 @@
 ﻿using ShopDemo.Data.DTOs.Products;
+using ShopDemo.Data.Entity.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,12 @@ namespace shopDemo.application.Services.Interface
         #region products
 
         Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
+
+        #endregion
+
+        #region product categories
+
+        Task<List<ProductCategory>> GetAllProductCategoriesByParentId(long? parentId);
 
         #endregion
     }

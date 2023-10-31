@@ -1,6 +1,7 @@
 using GoogleReCaptcha.V3;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using shopDemo.application.Services.implementation;
 using shopDemo.application.Services.Interface;
@@ -23,6 +24,15 @@ builder.Services.AddScoped<ISmsService, SmsService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ISellerService, SellerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+#endregion
+
+#region data protection
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(Directory.GetCurrentDirectory() + "\\wwwroot\\Auth\\"))
+    .SetApplicationName("MarketPlaceProject")
+    .SetDefaultKeyLifetime(TimeSpan.FromDays(30));
+
 #endregion
 #region Database
 builder.Services.AddDbContext<ShopDemoContext>(option =>
